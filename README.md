@@ -3,10 +3,9 @@ RavenLog4NetAppender
 
 log4net appender to send errors to Sentry (http://www.getsentry.com)
 
-Configure
+Configure in app.config:
 
-In app.config
-
+```
 <log4net>
 	<root>
 		<level value="DEBUG" />
@@ -21,3 +20,4 @@ In app.config
 		</layout>
 	</appender>
 </log4net>
+```
