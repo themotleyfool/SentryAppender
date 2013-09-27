@@ -19,7 +19,7 @@ namespace RavenLog4NetAppender
 
 			if (loggingEvent.ExceptionObject != null)
 			{
-				ravenClient.CaptureEvent(loggingEvent.ExceptionObject);
+				ravenClient.CaptureException(loggingEvent.ExceptionObject);
 			}
 			else
 			{
