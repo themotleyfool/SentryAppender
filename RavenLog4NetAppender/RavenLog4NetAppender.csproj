@@ -47,8 +47,6 @@
       <HintPath>..\packages\raven-csharp.1.0.2\lib\SharpRaven.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.log4net.cs" />
