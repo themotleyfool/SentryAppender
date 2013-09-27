@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using SharpRaven;
 using SharpRaven.Data;
@@ -30,12 +31,11 @@ namespace RavenLog4NetAppender
             else
             {
                 var level = Translate(loggingEvent.Level);
-                // TODO: Handle log4net messages without an exception.
-                var data = loggingEvent.MessageObject as IList<string>;
+                var stringList = loggingEvent.MessageObject as IList<string>;
 
-                if (data != null)
+                if (stringList != null)
                 {
-                    foreach (string s in data)
+                    foreach (string s in stringList)
                     {
                         // Do something with each string
                         ravenClient.CaptureMessage(s, level);
@@ -47,7 +47,20 @@ namespace RavenLog4NetAppender
 
         internal static ErrorLevel Translate(Level level)
         {
-            return ErrorLevel.debug;
+            switch (level.DisplayName)
+            {
+                case "WARN":
+                    return ErrorLevel.warning;
+
+                case "NOTICE":
+                    return ErrorLevel.info;
+            }
+
+            ErrorLevel errorLevel;
+
+            return !Enum.TryParse(level.DisplayName, true, out errorLevel)
+                ? ErrorLevel.error
+                : errorLevel;
         }
 
 
