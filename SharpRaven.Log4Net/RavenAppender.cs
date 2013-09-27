@@ -8,7 +8,7 @@ using log4net.Core;
 
 namespace SharpRaven.Log4Net
 {
-    public class RavenLog4NetAppender : AppenderSkeleton
+    public class RavenAppender : AppenderSkeleton
     {
         private static RavenClient ravenClient;
         public string DSN { get; set; }
