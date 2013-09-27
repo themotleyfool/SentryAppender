@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using SharpRaven;
 using SharpRaven.Data;
 
 using log4net.Appender;
 using log4net.Core;
 
-namespace RavenLog4NetAppender
+namespace SharpRaven.Log4Net
 {
     public class RavenLog4NetAppender : AppenderSkeleton
     {
@@ -20,8 +19,8 @@ namespace RavenLog4NetAppender
         {
             if (ravenClient == null)
             {
-                ravenClient = new RavenClient(DSN);
-                ravenClient.Logger = Logger;
+                ravenClient = new RavenClient(this.DSN);
+                ravenClient.Logger = this.Logger;
             }
 
             if (loggingEvent.ExceptionObject != null)

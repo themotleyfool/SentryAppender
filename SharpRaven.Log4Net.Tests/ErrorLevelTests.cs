@@ -4,7 +4,7 @@ using SharpRaven.Data;
 
 using log4net.Core;
 
-namespace RavenLog4NetAppenderTests
+namespace SharpRaven.Log4Net.Tests
 {
     [TestFixture]
     public class ErrorLevelTests
@@ -12,7 +12,7 @@ namespace RavenLog4NetAppenderTests
         [Test]
         public void Translate_Debug_ReturnsDebug()
         {
-            var level = RavenLog4NetAppender.RavenLog4NetAppender.Translate(Level.Debug);
+            var level = RavenLog4NetAppender.Translate(Level.Debug);
             Assert.That(level, Is.EqualTo(ErrorLevel.debug));
         }
 
@@ -20,7 +20,7 @@ namespace RavenLog4NetAppenderTests
         [Test]
         public void Translate_Error_ReturnsError()
         {
-            var level = RavenLog4NetAppender.RavenLog4NetAppender.Translate(Level.Error);
+            var level = RavenLog4NetAppender.Translate(Level.Error);
             Assert.That(level, Is.EqualTo(ErrorLevel.error));
         }
 
@@ -28,7 +28,7 @@ namespace RavenLog4NetAppenderTests
         [Test]
         public void Translate_Fatal_ReturnsFatal()
         {
-            var level = RavenLog4NetAppender.RavenLog4NetAppender.Translate(Level.Fatal);
+            var level = RavenLog4NetAppender.Translate(Level.Fatal);
             Assert.That(level, Is.EqualTo(ErrorLevel.fatal));
         }
 
@@ -36,7 +36,7 @@ namespace RavenLog4NetAppenderTests
         [Test]
         public void Translate_Info_ReturnsInfo()
         {
-            var level = RavenLog4NetAppender.RavenLog4NetAppender.Translate(Level.Info);
+            var level = RavenLog4NetAppender.Translate(Level.Info);
             Assert.That(level, Is.EqualTo(ErrorLevel.info));
         }
 
@@ -44,7 +44,7 @@ namespace RavenLog4NetAppenderTests
         [Test]
         public void Translate_Notice_ReturnsInfo()
         {
-            var level = RavenLog4NetAppender.RavenLog4NetAppender.Translate(Level.Notice);
+            var level = RavenLog4NetAppender.Translate(Level.Notice);
             Assert.That(level, Is.EqualTo(ErrorLevel.info));
         }
 
@@ -52,7 +52,7 @@ namespace RavenLog4NetAppenderTests
         [Test]
         public void Translate_UnknownLevel_ReturnsError()
         {
-            var level = RavenLog4NetAppender.RavenLog4NetAppender.Translate(Level.Alert);
+            var level = RavenLog4NetAppender.Translate(Level.Alert);
             Assert.That(level, Is.EqualTo(ErrorLevel.error));
         }
 
@@ -60,7 +60,7 @@ namespace RavenLog4NetAppenderTests
         [Test]
         public void Translate_Warn_ReturnsWarning()
         {
-            var level = RavenLog4NetAppender.RavenLog4NetAppender.Translate(Level.Warn);
+            var level = RavenLog4NetAppender.Translate(Level.Warn);
             Assert.That(level, Is.EqualTo(ErrorLevel.warning));
         }
     }
