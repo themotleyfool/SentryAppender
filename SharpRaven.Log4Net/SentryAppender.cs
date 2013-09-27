@@ -19,8 +19,8 @@ namespace SharpRaven.Log4Net
         {
             if (ravenClient == null)
             {
-                ravenClient = new RavenClient(this.DSN);
-                ravenClient.Logger = this.Logger;
+                ravenClient = new RavenClient(DSN);
+                ravenClient.Logger = Logger;
             }
 
             if (loggingEvent.ExceptionObject != null)
@@ -34,13 +34,13 @@ namespace SharpRaven.Log4Net
 
                 if (stringList != null)
                 {
-                    foreach (string s in stringList)
+                    foreach (var s in stringList)
                     {
                         ravenClient.CaptureMessage(s, level);
                     }
                 }
 
-                var message = loggingEvent.MessageObject as string;
+                string message = loggingEvent.RenderedMessage;
 
                 if (message != null)
                 {
@@ -64,8 +64,8 @@ namespace SharpRaven.Log4Net
             ErrorLevel errorLevel;
 
             return !Enum.TryParse(level.DisplayName, true, out errorLevel)
-                ? ErrorLevel.error
-                : errorLevel;
+                       ? ErrorLevel.error
+                       : errorLevel;
         }
 
 
