@@ -12,7 +12,7 @@ namespace SharpRaven.Log4Net.Tests
         [Test]
         public void Translate_Debug_ReturnsDebug()
         {
-            var level = RavenAppender.Translate(Level.Debug);
+            var level = SentryAppender.Translate(Level.Debug);
             Assert.That(level, Is.EqualTo(ErrorLevel.debug));
         }
 
@@ -20,7 +20,7 @@ namespace SharpRaven.Log4Net.Tests
         [Test]
         public void Translate_Error_ReturnsError()
         {
-            var level = RavenAppender.Translate(Level.Error);
+            var level = SentryAppender.Translate(Level.Error);
             Assert.That(level, Is.EqualTo(ErrorLevel.error));
         }
 
@@ -28,7 +28,7 @@ namespace SharpRaven.Log4Net.Tests
         [Test]
         public void Translate_Fatal_ReturnsFatal()
         {
-            var level = RavenAppender.Translate(Level.Fatal);
+            var level = SentryAppender.Translate(Level.Fatal);
             Assert.That(level, Is.EqualTo(ErrorLevel.fatal));
         }
 
@@ -36,7 +36,7 @@ namespace SharpRaven.Log4Net.Tests
         [Test]
         public void Translate_Info_ReturnsInfo()
         {
-            var level = RavenAppender.Translate(Level.Info);
+            var level = SentryAppender.Translate(Level.Info);
             Assert.That(level, Is.EqualTo(ErrorLevel.info));
         }
 
@@ -44,7 +44,7 @@ namespace SharpRaven.Log4Net.Tests
         [Test]
         public void Translate_Notice_ReturnsInfo()
         {
-            var level = RavenAppender.Translate(Level.Notice);
+            var level = SentryAppender.Translate(Level.Notice);
             Assert.That(level, Is.EqualTo(ErrorLevel.info));
         }
 
@@ -52,7 +52,7 @@ namespace SharpRaven.Log4Net.Tests
         [Test]
         public void Translate_UnknownLevel_ReturnsError()
         {
-            var level = RavenAppender.Translate(Level.Alert);
+            var level = SentryAppender.Translate(Level.Alert);
             Assert.That(level, Is.EqualTo(ErrorLevel.error));
         }
 
@@ -60,7 +60,7 @@ namespace SharpRaven.Log4Net.Tests
         [Test]
         public void Translate_Warn_ReturnsWarning()
         {
-            var level = RavenAppender.Translate(Level.Warn);
+            var level = SentryAppender.Translate(Level.Warn);
             Assert.That(level, Is.EqualTo(ErrorLevel.warning));
         }
     }
