@@ -37,9 +37,15 @@ namespace RavenLog4NetAppender
                 {
                     foreach (string s in stringList)
                     {
-                        // Do something with each string
                         ravenClient.CaptureMessage(s, level);
                     }
+                }
+
+                var message = loggingEvent.MessageObject as string;
+
+                if (message != null)
+                {
+                    ravenClient.CaptureMessage(message, level);
                 }
             }
         }
