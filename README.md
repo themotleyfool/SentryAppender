@@ -1,17 +1,17 @@
 RavenLog4NetAppender
 ====================
 
-log4net appender to send errors to Sentry (http://www.getsentry.com)
+[log4net](http://logging.apache.org/log4net/) appender to send errors to [Sentry](http://www.getsentry.com/).
 
 Configure in app.config:
 
-```
+```xml
 <log4net>
 	<root>
 		<level value="DEBUG" />
-		<appender-ref ref="RavenLog4NetAppender" />
+		<appender-ref ref="RavenAppender" />
 	</root>
-	<appender name="RavenLog4NetAppender" type="RavenLog4NetAppender.RavenLog4NetAppender, RavenLog4NetAppender">
+	<appender name="RavenAppender" type="SharpRaven.Log4Net.RavenAppender, SharpRaven.Log4Net">
 		<DSN value="DSN_FROM_SENTRY_UI" />
 		<Logger value="LOGGER_NAME" />
 		<threshold value="ERROR" />
