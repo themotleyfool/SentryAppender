@@ -19,8 +19,10 @@ namespace SharpRaven.Log4Net
         {
             if (ravenClient == null)
             {
-                ravenClient = new RavenClient(DSN);
-                ravenClient.Logger = Logger;
+                ravenClient = new RavenClient(DSN)
+                {
+                    Logger = Logger
+                };
             }
 
             if (loggingEvent.ExceptionObject != null)
@@ -40,7 +42,7 @@ namespace SharpRaven.Log4Net
                     }
                 }
 
-                string message = loggingEvent.RenderedMessage;
+                var message = loggingEvent.RenderedMessage;
 
                 if (message != null)
                 {
