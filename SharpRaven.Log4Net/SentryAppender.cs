@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using SharpRaven.Data;
 
@@ -32,16 +31,6 @@ namespace SharpRaven.Log4Net
             else
             {
                 var level = Translate(loggingEvent.Level);
-                var stringList = loggingEvent.MessageObject as IList<string>;
-
-                if (stringList != null)
-                {
-                    foreach (var s in stringList)
-                    {
-                        ravenClient.CaptureMessage(s, level);
-                    }
-                }
-
                 var message = loggingEvent.RenderedMessage;
 
                 if (message != null)
