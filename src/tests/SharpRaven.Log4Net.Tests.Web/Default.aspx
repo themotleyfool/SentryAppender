@@ -19,6 +19,7 @@
 
     private void Page_Load(object sender, EventArgs e)
     {
+        // TODO: Figure out why this is needed (the assembly attribute in AssemblyInfo.log4net.cs doesn't work). [asbjornu]
         XmlConfigurator.Configure();
 
         var log = LogManager.GetLogger(GetType());
