@@ -42,5 +42,9 @@
     </head>
     <body>
         <h1>Exception captured!</h1>
+        <form method="post">
+            <input type="hidden" name="Hidden">
+            <input type="submit" name="Button" value="Submit">
+        </form>
     </body>
 </html>
