@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 
@@ -38,10 +40,20 @@ namespace SharpRaven.Log4Net.Web
             if (httpContext == null)
                 return extra;
 
-            foreach (string key in httpContext.Request.ServerVariables.Keys)
+            try
             {
-                var value = httpContext.Request.ServerVariables[key];
-                extra = Append(extra, key, value);
+                var serverVariables = (NameValueCollection)httpContext.Request.ServerVariables;
+                var keys = serverVariables.AllKeys.ToArray();
+
+                foreach (string key in keys)
+                {
+                    var value = serverVariables[key];
+                    extra = Append(extra, key, value);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
             }
 
             return extra;

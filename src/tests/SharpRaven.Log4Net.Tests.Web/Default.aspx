@@ -1,10 +1,11 @@
 ﻿<%@ Page Language="C#" %>
 <%@ Import Namespace="log4net" %>
+<%@ Import Namespace="log4net.Config" %>
 <!DOCTYPE html>
 <script runat="server">
 
 
-    private void DivideByZero(int stackFrames = 10)
+    private static void DivideByZero(int stackFrames = 10)
     {
         if (stackFrames == 0)
         {
@@ -18,6 +19,8 @@
 
     private void Page_Load(object sender, EventArgs e)
     {
+        XmlConfigurator.Configure();
+
         var log = LogManager.GetLogger(GetType());
 
         try
@@ -26,7 +29,7 @@
         }
         catch (Exception exception)
         {
-            log.Fatal("Unexpected Exception in Web Application", exception);
+            log.Error("Unexpected Exception in Web Application", exception);
         }
     }
 
