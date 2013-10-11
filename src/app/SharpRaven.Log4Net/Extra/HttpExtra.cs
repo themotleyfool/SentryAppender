@@ -4,10 +4,31 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 
-namespace SharpRaven.Log4Net.Web
+namespace SharpRaven.Log4Net.Extra
 {
-    public class HttpContextExtraAppender : ExtraAppender
+    public class HttpExtra
     {
+        private static readonly dynamic httpContext;
+
+
+        static HttpExtra()
+        {
+            httpContext = GetHttpContext();
+        }
+
+
+        public object Request
+        {
+            get
+            {
+                return new
+                {
+                    ServerVariables = Convert(x => x.Request.ServerVariables)
+                };
+            }
+        }
+
+
         private static dynamic GetHttpContext()
         {
             var systemWeb = AppDomain.CurrentDomain
@@ -33,22 +54,19 @@ namespace SharpRaven.Log4Net.Web
         }
 
 
-        protected override object Append(object extra)
+        private static IDictionary<string, string> Convert(Func<dynamic, NameValueCollection> collectionGetter)
         {
-            var httpContext = GetHttpContext();
-
-            if (httpContext == null)
-                return extra;
+            IDictionary<string, string> dictionary = new Dictionary<string, string>();
 
             try
             {
-                var serverVariables = (NameValueCollection)httpContext.Request.ServerVariables;
-                var keys = serverVariables.AllKeys.ToArray();
+                NameValueCollection collection = collectionGetter.Invoke(httpContext);
+                var keys = collection.AllKeys.ToArray();
 
-                foreach (string key in keys)
+                foreach (var key in keys)
                 {
-                    var value = serverVariables[key];
-                    extra = Append(extra, key, value);
+                    var value = collection[key];
+                    dictionary.Add(key, value);
                 }
             }
             catch (Exception exception)
@@ -56,7 +74,7 @@ namespace SharpRaven.Log4Net.Web
                 Console.WriteLine(exception);
             }
 
-            return extra;
+            return dictionary;
         }
     }
 }

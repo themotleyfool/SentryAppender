@@ -1,6 +1,7 @@
 ﻿using System;
 
 using SharpRaven.Data;
+using SharpRaven.Log4Net.Extra;
 
 using log4net.Appender;
 using log4net.Core;
@@ -26,15 +27,9 @@ namespace SharpRaven.Log4Net
 
             object extra = new
             {
-                Environment = new
-                {
-                    Environment.MachineName,
-                    Environment.OSVersion,
-                    Environment.Version,
-                },
+                Environment = new EnvironmentExtra(),
+                Http = new HttpExtra(),
             };
-
-            extra = ExtraAppender.AppendTo(extra);
 
             if (loggingEvent.ExceptionObject != null)
             {
