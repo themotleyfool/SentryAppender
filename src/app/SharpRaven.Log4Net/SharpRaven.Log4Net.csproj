@@ -50,8 +50,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extra\ExtraAppender.cs" />
-    <Compile Include="Extra\HttpContextExtraAppender.cs" />
+    <Compile Include="Extra\EnvironmentExtra.cs" />
+    <Compile Include="Extra\HttpExtra.cs" />
     <Compile Include="Properties\AssemblyInfo.log4net.cs" />
     <Compile Include="SentryAppender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
