@@ -31,9 +31,11 @@ namespace SharpRaven.Log4Net
                 Http = new HttpExtra(),
             };
 
-            if (loggingEvent.ExceptionObject != null)
+            var exception = loggingEvent.ExceptionObject ?? loggingEvent.MessageObject as Exception;
+
+            if (exception != null)
             {
-                ravenClient.CaptureException(loggingEvent.ExceptionObject, null, extra);
+                ravenClient.CaptureException(exception, null, extra);
             }
             else
             {
