@@ -60,7 +60,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpRaven.Log4Net\SharpRaven.Log4Net.csproj">
+    <ProjectReference Include="..\..\app\SharpRaven.Log4Net\SharpRaven.Log4Net.csproj">
       <Project>{89A4E2A9-2D28-4500-B041-30D7A6C040D3}</Project>
       <Name>SharpRaven.Log4Net</Name>
     </ProjectReference>

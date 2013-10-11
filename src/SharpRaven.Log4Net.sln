@@ -1,20 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F3BFDB42-51F9-4D0C-8C43-5731D08B7F94}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpRaven.Log4Net", "app\SharpRaven.Log4Net\SharpRaven.Log4Net.csproj", "{89A4E2A9-2D28-4500-B041-30D7A6C040D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpRaven.Log4Net", "SharpRaven.Log4Net\SharpRaven.Log4Net.csproj", "{89A4E2A9-2D28-4500-B041-30D7A6C040D3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpRaven.Log4Net.Tests", "SharpRaven.Log4Net.Tests\SharpRaven.Log4Net.Tests.csproj", "{6879BBB1-49BC-4423-814D-5141CA347086}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpRaven.Log4Net.Tests", "tests\SharpRaven.Log4Net.Tests\SharpRaven.Log4Net.Tests.csproj", "{6879BBB1-49BC-4423-814D-5141CA347086}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1866A7D1-8F21-4CFF-B862-CB88686D7913}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F14412BF-5345-42C2-9F5A-46EA635F042B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Global
