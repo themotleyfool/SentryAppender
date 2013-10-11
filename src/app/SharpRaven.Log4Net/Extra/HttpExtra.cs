@@ -8,22 +8,66 @@ namespace SharpRaven.Log4Net.Extra
 {
     public class HttpExtra
     {
-        private static readonly dynamic httpContext;
+        private readonly dynamic httpContext;
 
 
-        static HttpExtra()
+        public HttpExtra()
         {
-            httpContext = GetHttpContext();
+            this.httpContext = GetHttpContext();
+            Request = GetRequest();
         }
 
 
-        public object Request
+        public object Request { get; private set; }
+
+
+        private object GetRequest()
         {
-            get
+            try
             {
                 return new
                 {
-                    ServerVariables = Convert(x => x.Request.ServerVariables)
+                    ServerVariables = Convert(x => x.Request.ServerVariables),
+                    Form = Convert(x => x.Request.Form),
+                    Cookies = Convert(x => x.Request.Cookies),
+                    Headers = Convert(x => x.Request.Headers),
+                    Params = Convert(x => x.Request.Params),
+                    this.httpContext.Request.AcceptTypes,
+                    this.httpContext.Request.ApplicationPath,
+                    this.httpContext.Request.ContentEncoding,
+                    this.httpContext.Request.ContentType,
+                    this.httpContext.Request.CurrentExecutionFilePath,
+                    this.httpContext.Request.CurrentExecutionFilePathExtension,
+                    this.httpContext.Request.FilePath,
+                    this.httpContext.Request.HttpMethod,
+                    this.httpContext.Request.IsAuthenticated,
+                    this.httpContext.Request.IsLocal,
+                    this.httpContext.Request.IsSecureConnection,
+                    this.httpContext.Request.Path,
+                    this.httpContext.Request.PathInfo,
+                    this.httpContext.Request.PhysicalApplicationPath,
+                    this.httpContext.Request.PhysicalPath,
+                    this.httpContext.Request.QueryString,
+                    this.httpContext.Request.RawUrl,
+                    this.httpContext.Request.TotalBytes,
+                    this.httpContext.Request.Url,
+                    this.httpContext.Request.UserAgent,
+                    User = new
+                    {
+                        Languages = this.httpContext.Request.UserLanguages,
+                        Host = new
+                        {
+                            Address = this.httpContext.Request.UserHostAddress,
+                            Name = this.httpContext.Request.UserHostName,
+                        }
+                    }
+                };
+            }
+            catch (Exception exception)
+            {
+                return new
+                {
+                    Exception = exception
                 };
             }
         }
@@ -54,13 +98,16 @@ namespace SharpRaven.Log4Net.Extra
         }
 
 
-        private static IDictionary<string, string> Convert(Func<dynamic, NameValueCollection> collectionGetter)
+        private IDictionary<string, string> Convert(Func<dynamic, NameValueCollection> collectionGetter)
         {
+            if (this.httpContext == null)
+                return null;
+
             IDictionary<string, string> dictionary = new Dictionary<string, string>();
 
             try
             {
-                NameValueCollection collection = collectionGetter.Invoke(httpContext);
+                NameValueCollection collection = collectionGetter.Invoke(this.httpContext);
                 var keys = collection.AllKeys.ToArray();
 
                 foreach (var key in keys)
