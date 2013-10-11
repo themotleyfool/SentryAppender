@@ -43,7 +43,7 @@
     <body>
         <h1>Exception captured!</h1>
         <form method="post">
-            <input type="hidden" name="Hidden">
+            <input type="hidden" name="Hidden" value="I'm hidden!">
             <input type="submit" name="Button" value="Submit">
         </form>
     </body>
