@@ -31,7 +31,7 @@ namespace SharpRaven.Log4Net
                     Environment.MachineName,
                     Environment.OSVersion,
                     Environment.Version,
-                }
+                },
             };
 
             extra = ExtraAppender.AppendTo(extra);
