@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using SharpRaven.Data;
 
@@ -24,9 +25,21 @@ namespace SharpRaven.Log4Net
                 };
             }
 
+            object extra = new
+            {
+                Environment = new
+                {
+                    Environment.MachineName,
+                    Environment.OSVersion,
+                    Environment.Version,
+                }
+            };
+
+            extra = ExtraAppender.AppendTo(extra);
+
             if (loggingEvent.ExceptionObject != null)
             {
-                ravenClient.CaptureException(loggingEvent.ExceptionObject);
+                ravenClient.CaptureException(loggingEvent.ExceptionObject, null, extra);
             }
             else
             {
@@ -35,7 +48,7 @@ namespace SharpRaven.Log4Net
 
                 if (message != null)
                 {
-                    ravenClient.CaptureMessage(message, level);
+                    ravenClient.CaptureMessage(message, level, null, extra);
                 }
             }
         }
