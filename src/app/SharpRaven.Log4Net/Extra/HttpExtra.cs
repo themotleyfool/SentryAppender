@@ -15,10 +15,50 @@ namespace SharpRaven.Log4Net.Extra
         {
             this.httpContext = GetHttpContext();
             Request = GetRequest();
+            Response = GetResponse();
         }
 
 
         public object Request { get; private set; }
+        public object Response { get; private set; }
+
+
+        private object GetResponse()
+        {
+            try
+            {
+                return new
+                {
+                    Cookies = Convert(x => x.Response.Cookies),
+                    Headers = Convert(x => x.Response.Headers),
+                    this.httpContext.Response.ContentType,
+                    this.httpContext.Response.Charset,
+                    this.httpContext.Response.ContentEncoding,
+                    this.httpContext.Response.Expires,
+                    this.httpContext.Response.ExpiresAbsolute,
+                    this.httpContext.Response.HeaderEncoding,
+                    this.httpContext.Response.IsClientConnected,
+                    this.httpContext.Response.IsRequestBeingRedirected,
+                    this.httpContext.Response.RedirectLocation,
+                    this.httpContext.Response.SuppressContent,
+                    this.httpContext.Response.TrySkipIisCustomErrors,
+                    Status = new
+                    {
+                        this.httpContext.Response.Status,
+                        Code = this.httpContext.Response.StatusCode,
+                        Description = this.httpContext.Response.StatusDescription,
+                        SubCode = this.httpContext.Response.SubStatusCode,
+                    }
+                };
+            }
+            catch (Exception exception)
+            {
+                return new
+                {
+                    Exception = exception
+                };
+            }
+        }
 
 
         private object GetRequest()
@@ -112,6 +152,10 @@ namespace SharpRaven.Log4Net.Extra
 
                 foreach (var key in keys)
                 {
+                    // NOTE: Ignore these keys as they just add duplicate information. [asbjornu]
+                    if (key == "ALL_HTTP" || key == "ALL_RAW")
+                        continue;
+
                     var value = collection[key];
                     dictionary.Add(key, value);
                 }
