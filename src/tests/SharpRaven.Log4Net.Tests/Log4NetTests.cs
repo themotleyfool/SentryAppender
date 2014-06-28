@@ -12,6 +12,18 @@ namespace SharpRaven.Log4Net.Tests
         private ILog log;
 
 
+        private static void DivideByZero(int stackFrames = 10)
+        {
+            if (stackFrames == 0)
+            {
+                var a = 0;
+                var b = 1 / a;
+            }
+            else
+                DivideByZero(--stackFrames);
+        }
+
+
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -33,7 +45,8 @@ namespace SharpRaven.Log4Net.Tests
             "Only run this test if you're going to check for the logged error in Sentry or debug the SentryAppender.")]
         public void ErrorWithException_ExceptionIsLogged()
         {
-            this.log.Error("This is a test message", new Exception("This is a test exception"));
+            var exception = Assert.Throws<DivideByZeroException>(() => DivideByZero());
+            this.log.Error("This is a test exception", exception);
         }
 
 

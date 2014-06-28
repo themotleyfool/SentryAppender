@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using SharpRaven.Data;
+using SharpRaven.Log4Net.Extra;
 
 using log4net.Appender;
 using log4net.Core;
@@ -19,32 +19,32 @@ namespace SharpRaven.Log4Net
         {
             if (ravenClient == null)
             {
-                ravenClient = new RavenClient(DSN);
-                ravenClient.Logger = Logger;
+                ravenClient = new RavenClient(DSN)
+                {
+                    Logger = Logger
+                };
             }
 
-            if (loggingEvent.ExceptionObject != null)
+            object extra = new
             {
-                ravenClient.CaptureException(loggingEvent.ExceptionObject);
+                Environment = new EnvironmentExtra(),
+                Http = new HttpExtra(),
+            };
+
+            var exception = loggingEvent.ExceptionObject ?? loggingEvent.MessageObject as Exception;
+
+            if (exception != null)
+            {
+                ravenClient.CaptureException(exception, null, extra);
             }
             else
             {
                 var level = Translate(loggingEvent.Level);
-                var stringList = loggingEvent.MessageObject as IList<string>;
-
-                if (stringList != null)
-                {
-                    foreach (var s in stringList)
-                    {
-                        ravenClient.CaptureMessage(s, level);
-                    }
-                }
-
-                string message = loggingEvent.RenderedMessage;
+                var message = loggingEvent.RenderedMessage;
 
                 if (message != null)
                 {
-                    ravenClient.CaptureMessage(message, level);
+                    ravenClient.CaptureMessage(message, level, null, extra);
                 }
             }
         }
