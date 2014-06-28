@@ -35,7 +35,7 @@ namespace SharpRaven.Log4Net
 
             if (exception != null)
             {
-                ravenClient.CaptureException(exception, null, extra);
+                ravenClient.CaptureException(exception, null, extra: extra);
             }
             else
             {
@@ -55,16 +55,16 @@ namespace SharpRaven.Log4Net
             switch (level.DisplayName)
             {
                 case "WARN":
-                    return ErrorLevel.warning;
+                    return ErrorLevel.Warning;
 
                 case "NOTICE":
-                    return ErrorLevel.info;
+                    return ErrorLevel.Info;
             }
 
             ErrorLevel errorLevel;
 
             return !Enum.TryParse(level.DisplayName, true, out errorLevel)
-                       ? ErrorLevel.error
+                       ? ErrorLevel.Error
                        : errorLevel;
         }
 

@@ -43,9 +43,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SharpRaven, Version=0.7.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\raven-csharp.1.0.2\lib\SharpRaven.dll</HintPath>
+    <Reference Include="SharpRaven">
+      <HintPath>..\..\packages\SharpRaven.1.3.1.53\lib\SharpRaven.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
