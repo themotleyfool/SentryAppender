@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RavenSharp.Log4Net</id>
+    <version>$version$</version>
+    <title>RavenSharp.Log4Net</title>
+    <authors>Adam Hill, Chris Eldredge</authors>
+    <owners>The Motley Fool, LLC</owners>
+    <projectUrl>https://github.com/themotleyfool/SentryAppender/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>log4net appender to send errors to Sentry.</description>
+    <releaseNotes>See https://github.com/themotleyfool/SentryAppender/releases</releaseNotes>
+    <copyright>Copyright 2013-2014 The Motley Fool, LLC</copyright>
+    <tags>sentry logging monitoring log4net</tags>
+  </metadata>
+</package>
