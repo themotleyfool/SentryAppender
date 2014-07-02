@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Version">
+        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionSuffix></VersionSuffix>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Settings">
+        <SolutionFile>SharpRaven.Log4Net.sln</SolutionFile>
+    </PropertyGroup>
+    
+    <PropertyGroup Label="FeatureFlags">
+        <GenerateVersionInfoEnabled>true</GenerateVersionInfoEnabled>
+        <NUnitEnabled>true</NUnitEnabled>
+        <NuGetPackEnabled>true</NuGetPackEnabled>
+    </PropertyGroup>
+</Project>
