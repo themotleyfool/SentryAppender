@@ -32,14 +32,14 @@ namespace SharpRaven.Log4Net
             };
 
             var exception = loggingEvent.ExceptionObject ?? loggingEvent.MessageObject as Exception;
+            var level = Translate(loggingEvent.Level);
 
             if (exception != null)
             {
-                ravenClient.CaptureException(exception, null, extra: extra);
+                ravenClient.CaptureException(exception, null, level, extra: extra);
             }
             else
             {
-                var level = Translate(loggingEvent.Level);
                 var message = loggingEvent.RenderedMessage;
 
                 if (message != null)
