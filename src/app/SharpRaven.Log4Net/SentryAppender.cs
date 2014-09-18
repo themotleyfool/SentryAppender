@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using log4net.Layout;
 
 using SharpRaven.Data;
 using SharpRaven.Log4Net.Extra;
@@ -8,12 +12,23 @@ using log4net.Core;
 
 namespace SharpRaven.Log4Net
 {
+    public class SentryTag
+    {
+        public string Name { get; set; }
+        public IRawLayout Layout { get; set; }
+    }
+
     public class SentryAppender : AppenderSkeleton
     {
         private static RavenClient ravenClient;
         public string DSN { get; set; }
         public string Logger { get; set; }
+        private readonly IList<SentryTag> tagLayouts = new List<SentryTag>();
 
+        public void AddTag(SentryTag tag)
+        {
+            tagLayouts.Add(tag);
+        }
 
         protected override void Append(LoggingEvent loggingEvent)
         {
@@ -31,12 +46,14 @@ namespace SharpRaven.Log4Net
                 Http = new HttpExtra(),
             };
 
+            var tags = tagLayouts.ToDictionary(t => t.Name, t => (t.Layout.Format(loggingEvent) ?? "").ToString());
+
             var exception = loggingEvent.ExceptionObject ?? loggingEvent.MessageObject as Exception;
             var level = Translate(loggingEvent.Level);
 
             if (exception != null)
             {
-                ravenClient.CaptureException(exception, null, level, extra: extra);
+                ravenClient.CaptureException(exception, null, level, tags: tags, extra: extra);
             }
             else
             {
@@ -44,7 +61,7 @@ namespace SharpRaven.Log4Net
 
                 if (message != null)
                 {
-                    ravenClient.CaptureMessage(message, level, null, extra);
+                    ravenClient.CaptureMessage(message, level, tags, extra);
                 }
             }
         }
