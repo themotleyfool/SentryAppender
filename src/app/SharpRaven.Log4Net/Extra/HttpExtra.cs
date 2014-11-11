@@ -10,14 +10,22 @@ namespace SharpRaven.Log4Net.Extra
     {
         private readonly dynamic httpContext;
 
-
-        public HttpExtra()
+        private HttpExtra(dynamic httpContext)
         {
-            this.httpContext = GetHttpContext();
+            this.httpContext = httpContext;
             Request = GetRequest();
             Response = GetResponse();
         }
 
+
+        public static HttpExtra GetHttpExtra()
+        {
+            var context = GetHttpContext();
+            if (context == null)
+                return null;
+
+            return new HttpExtra(context);
+        }
 
         public object Request { get; private set; }
         public object Response { get; private set; }

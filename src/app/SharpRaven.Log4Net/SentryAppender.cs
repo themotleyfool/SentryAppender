@@ -40,11 +40,24 @@ namespace SharpRaven.Log4Net
                 };
             }
 
-            object extra = new
+            var httpExtra = HttpExtra.GetHttpExtra();
+            object extra;
+
+            if (httpExtra != null)
             {
-                Environment = new EnvironmentExtra(),
-                Http = new HttpExtra(),
-            };
+                extra = new
+                {
+                    Environment = new EnvironmentExtra(),
+                    Http = httpExtra
+                };
+            }
+            else
+            {
+                extra = new
+                {
+                    Environment = new EnvironmentExtra()
+                };
+            }
 
             var tags = tagLayouts.ToDictionary(t => t.Name, t => (t.Layout.Format(loggingEvent) ?? "").ToString());
 
