@@ -37,7 +37,7 @@ namespace SharpRaven.Log4Net.Extra
             {
                 return new
                 {
-                    Cookies = Convert(x => x.Response.Cookies),
+                    Cookies = ConvertCookies(),
                     Headers = Convert(x => x.Response.Headers),
                     ContentEncoding = this.httpContext.Response.ContentEncoding.HeaderName,
                     HeaderEncoding = this.httpContext.Response.HeaderEncoding.HeaderName,
@@ -77,7 +77,7 @@ namespace SharpRaven.Log4Net.Extra
                 {
                     ServerVariables = Convert(x => x.Request.ServerVariables),
                     Form = Convert(x => x.Request.Form),
-                    Cookies = Convert(x => x.Request.Cookies),
+                    Cookies = ConvertCookies(),
                     Headers = Convert(x => x.Request.Headers),
                     //Params = Convert(x => x.Request.Params),
                     ContentEncoding = this.httpContext.Request.ContentEncoding.HeaderName,
@@ -145,7 +145,6 @@ namespace SharpRaven.Log4Net.Extra
             return currentHttpContextProperty.GetValue(null, null);
         }
 
-
         private IDictionary<string, string> Convert(Func<dynamic, NameValueCollection> collectionGetter)
         {
             if (this.httpContext == null)
@@ -165,6 +164,32 @@ namespace SharpRaven.Log4Net.Extra
                         continue;
 
                     var value = collection[key];
+                    dictionary.Add(key, value);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+
+            return dictionary;
+        }
+
+        private IDictionary<string, string> ConvertCookies()
+        {
+            if (this.httpContext == null)
+                return null;
+
+            IDictionary<string, string> dictionary = new Dictionary<string, string>();
+
+            try
+            {
+                dynamic cookieCollection = httpContext.Request.Cookies;
+                var keys = cookieCollection.AllKeys;
+
+                foreach (var key in keys)
+                {
+                    var value = cookieCollection[key].Value;
                     dictionary.Add(key, value);
                 }
             }
