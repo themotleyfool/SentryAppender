@@ -37,7 +37,7 @@ namespace SharpRaven.Log4Net.Extra
             {
                 return new
                 {
-                    Cookies = ConvertCookies(),
+                    Cookies = Convert(x => x.Response.Cookies, GetValueFromCookieCollection),
                     Headers = Convert(x => x.Response.Headers),
                     ContentEncoding = this.httpContext.Response.ContentEncoding.HeaderName,
                     HeaderEncoding = this.httpContext.Response.HeaderEncoding.HeaderName,
@@ -77,7 +77,7 @@ namespace SharpRaven.Log4Net.Extra
                 {
                     ServerVariables = Convert(x => x.Request.ServerVariables),
                     Form = Convert(x => x.Request.Form),
-                    Cookies = ConvertCookies(),
+                    Cookies = Convert(x => x.Request.Cookies, GetValueFromCookieCollection),
                     Headers = Convert(x => x.Request.Headers),
                     //Params = Convert(x => x.Request.Params),
                     ContentEncoding = this.httpContext.Request.ContentEncoding.HeaderName,
@@ -145,26 +145,28 @@ namespace SharpRaven.Log4Net.Extra
             return currentHttpContextProperty.GetValue(null, null);
         }
 
-        private IDictionary<string, string> Convert(Func<dynamic, NameValueCollection> collectionGetter)
+        private IDictionary<string, string> Convert(Func<dynamic, NameObjectCollectionBase> collectionGetter, Func<NameObjectCollectionBase, object, string> valueFromCollectionGetter = null)
         {
             if (this.httpContext == null)
                 return null;
+
+            if (valueFromCollectionGetter == null)
+                valueFromCollectionGetter = (c, key) => ((NameValueCollection)c)[key.ToString()];
 
             IDictionary<string, string> dictionary = new Dictionary<string, string>();
 
             try
             {
-                NameValueCollection collection = collectionGetter.Invoke(this.httpContext);
-                var keys = collection.AllKeys.ToArray();
+                NameObjectCollectionBase collection = collectionGetter.Invoke(this.httpContext);
 
-                foreach (var key in keys)
+                foreach (var key in collection.Keys)
                 {
                     // NOTE: Ignore these keys as they just add duplicate information. [asbjornu]
                     if (key == "ALL_HTTP" || key == "ALL_RAW")
                         continue;
 
-                    var value = collection[key];
-                    dictionary.Add(key, value);
+                    var value = valueFromCollectionGetter(collection, key);
+                    dictionary.Add(key.ToString(), value);
                 }
             }
             catch (Exception exception)
@@ -175,30 +177,9 @@ namespace SharpRaven.Log4Net.Extra
             return dictionary;
         }
 
-        private IDictionary<string, string> ConvertCookies()
+        private string GetValueFromCookieCollection(NameObjectCollectionBase cookieCollection, object key)
         {
-            if (this.httpContext == null)
-                return null;
-
-            IDictionary<string, string> dictionary = new Dictionary<string, string>();
-
-            try
-            {
-                dynamic cookieCollection = httpContext.Request.Cookies;
-                var keys = cookieCollection.AllKeys;
-
-                foreach (var key in keys)
-                {
-                    var value = cookieCollection[key].Value;
-                    dictionary.Add(key, value);
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-            }
-
-            return dictionary;
+            return ((dynamic)cookieCollection)[key.ToString()].Value;
         }
     }
 }
