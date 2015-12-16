@@ -20,7 +20,7 @@ namespace SharpRaven.Log4Net
 
     public class SentryAppender : AppenderSkeleton
     {
-        private static RavenClient ravenClient;
+        private RavenClient ravenClient;
         public string DSN { get; set; }
         public string Logger { get; set; }
         private readonly IList<SentryTag> tagLayouts = new List<SentryTag>();
