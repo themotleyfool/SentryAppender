@@ -1,6 +1,9 @@
 SentryAppender
 =============
 
+**NOTE** 
+This repository is no longer being maintained by The Motley Fool.  Please review the network graph under Insights for a list of reposititores that have forked this and may have more up-to-date code.  Thanks!
+
 [log4net](http://logging.apache.org/log4net/) appender to send errors to [Sentry](http://www.getsentry.com/).
 
 Configure in app.config:
