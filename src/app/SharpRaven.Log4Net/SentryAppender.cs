@@ -20,7 +20,7 @@ namespace SharpRaven.Log4Net
 
     public class SentryAppender : AppenderSkeleton
     {
-        private static RavenClient ravenClient;
+        private RavenClient ravenClient;
         public string DSN { get; set; }
         public string Logger { get; set; }
         private readonly IList<SentryTag> tagLayouts = new List<SentryTag>();
@@ -62,16 +62,15 @@ namespace SharpRaven.Log4Net
             var tags = tagLayouts.ToDictionary(t => t.Name, t => (t.Layout.Format(loggingEvent) ?? "").ToString());
 
             var exception = loggingEvent.ExceptionObject ?? loggingEvent.MessageObject as Exception;
+            var message = loggingEvent.RenderedMessage;
             var level = Translate(loggingEvent.Level);
 
             if (exception != null)
             {
-                ravenClient.CaptureException(exception, null, level, tags: tags, extra: extra);
+                ravenClient.CaptureException(exception, message, level, tags: tags, extra: extra);
             }
             else
             {
-                var message = loggingEvent.RenderedMessage;
-
                 if (message != null)
                 {
                     ravenClient.CaptureMessage(message, level, tags, extra);
